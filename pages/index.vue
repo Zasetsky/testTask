@@ -2,7 +2,7 @@
   <div>
     <div class="product-form">
       <h1>Добавление товаров</h1>
-      <form>
+      <form  @submit.prevent="addProduct()">
         <p>Наименование товара</p>
         <input v-model="inputName" type="text" placeholder="Введите наименование товара" required>
         <p>Описание товара</p>
@@ -11,7 +11,7 @@
         <input v-model="inputLink" type="url" placeholder="Введите ссылку на изображение товара" required>
         <p>Цена товара</p>
         <input v-model="inputPrice" type="number" placeholder="Введите цену товара" required>
-        <button @click.prevent="addProduct()">Добавить товар</button>
+        <button type="submit">Добавить товар</button>
       </form>
     </div>
     <Grid />
@@ -26,6 +26,7 @@ export default {
   data () {
     return {
       addedProducts: [],
+      inputName: '',
       inputDesc: '',
       inputLink: '',
       inputPrice: ''

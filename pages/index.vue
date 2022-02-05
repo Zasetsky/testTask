@@ -1,20 +1,28 @@
 <template>
   <div>
+    <h1>Добавление товара</h1>
+    <div class="sorter-wrapper">
+      <select v-model="sortBy" class="sorter">
+        <option disabled>По умолчанию</option>
+        <option value="name">По имени</option>
+        <option value="price-increase">По возрастанию цены</option>
+        <option value="price-decrease">По убыванию цены</option>
+      </select>
+    </div>
     <div class="product-form">
-      <h1>Добавление товара</h1>
-      <form  @submit.prevent="addProduct()">
+      <form @submit.prevent="addProduct()">
         <p>Наименование товара</p>
-        <input class="input" v-model="inputName" type="text" placeholder="Введите наименование товара" required>
+        <input v-model="inputName" class="input" type="text" placeholder="Введите наименование товара" required>
         <p>Описание товара</p>
-        <input class="input-desc" v-model="inputDesc" type="text" placeholder="Введите описание товара">
+        <input v-model="inputDesc" class="input-desc" type="text" placeholder="Введите описание товара">
         <p>Ссылка на изображение товара</p>
-        <input class="input" v-model="inputLink" type="url" placeholder="Введите ссылку на изображение товара" required>
+        <input v-model="inputLink" class="input" type="url" placeholder="Введите ссылку на изображение товара" required>
         <p>Цена товара</p>
-        <input class="input" v-model="inputPrice" type="number" placeholder="Введите цену товара" required>
+        <input v-model="inputPrice" class="input" type="number" placeholder="Введите цену товара" required>
         <button class="button" type="submit">Добавить товар</button>
       </form>
     </div>
-    <Grid :products="availableProducts" @remove="i => removeProduct(i)" />
+    <Grid :products="sortedArray" @remove="i => removeProduct(i)" />
   </div>
 </template>
 
@@ -26,11 +34,41 @@ export default {
 
   data () {
     return {
+      sortBy: 'По умолчанию',
       availableProducts,
       inputName: '',
       inputDesc: '',
       inputLink: '',
       inputPrice: ''
+    }
+  },
+
+  computed: {
+    sortedArray () {
+      let products = this.availableProducts
+      if (this.sortBy === 'name') {
+        products = products.sort((a, b) => {
+          const fa = a.name.toLowerCase()
+          const fb = b.name.toLowerCase()
+          if (fa < fb) {
+            return -1
+          }
+          if (fa > fb) {
+            return 1
+          } else {
+            return 0
+          }
+        })
+      } else if (this.sortBy === 'price-decrease') {
+        products = products.sort((a, b) => {
+          return b.price - a.price
+        })
+      } else if (this.sortBy === 'price-increase') {
+        products = products.sort((a, b) => {
+          return a.price - b.price
+        })
+      }
+      return products
     }
   },
 
@@ -47,11 +85,12 @@ export default {
       this.inputDesc = ''
       this.inputLink = ''
       this.inputPrice = ''
-      console.log(this.availableProducts)
     },
 
     removeProduct (index) {
-      this.availableProducts.splice(index, 1)
+      if (index !== -1) {
+        this.availableProducts.splice(index, 1)
+      }
     }
   }
 }
@@ -75,7 +114,12 @@ html {
   padding: 40px;
   margin: 20px 0 0 0;
 }
-.input {
-
+.sorter-wrapper {
+  padding: 35px;
+}
+.sorter {
+  float: right;
+  width: 150px;
+  height: 30px;
 }
 </style>

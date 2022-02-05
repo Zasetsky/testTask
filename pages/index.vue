@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="product-form">
+      <h1>Добавление товара</h1>
       <form  @submit.prevent="addProduct()">
         <p>Наименование товара</p>
         <input class="input" v-model="inputName" type="text" placeholder="Введите наименование товара" required>
@@ -13,7 +14,7 @@
         <button class="button" type="submit">Добавить товар</button>
       </form>
     </div>
-    <Grid :products="availableProducts" />
+    <Grid :products="availableProducts" @remove="i => removeProduct(i)" />
   </div>
 </template>
 
@@ -47,6 +48,10 @@ export default {
       this.inputLink = ''
       this.inputPrice = ''
       console.log(this.availableProducts)
+    },
+
+    removeProduct (index) {
+      this.availableProducts.splice(index, 1)
     }
   }
 }

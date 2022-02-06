@@ -1,21 +1,11 @@
 <template>
-  <div>
-    <div class="grid-wrapper">
-      <!-- <div class="filter-wrapper">
-        <select class="filter" v-model="selected">
-          <option disabled value="По умолчанию">По умолчанию</option>
-          <option>По имени</option>
-          <option>По возрастанию цены</option>
-          <option>По убыванию цены</option>
-        </select>
-      </div> -->
-      <div v-for="(item, index) in products" :key="index" class="grid">
-        <button @click="removeProduct(index)" />
-        <img width="375px" :src="item.imgSrc">
-        <h3>{{ item.name }}</h3>
-        <p>{{ item.description }}</p>
-        <p>{{ item.price }}</p>
-      </div>
+  <div class="grid-wrapper">
+    <div v-for="(item, index) in products" :key="index" class="grid" @mouseover="active = true" @mouseleave="active = false">
+      <img v-show="active" class="button" width="35px" src="../data/images/pngwing.com.png" @click="removeProduct(index)">
+      <img width="375px" :src="item.imgSrc">
+      <h3>{{ item.name }}</h3>
+      <p>{{ item.description }}</p>
+      <p>{{ item.price }}</p>
     </div>
   </div>
 </template>
@@ -29,6 +19,12 @@ export default {
     products: {
       type: Array,
       required: true
+    }
+  },
+
+  data () {
+    return {
+      active: false
     }
   },
 
@@ -52,15 +48,9 @@ export default {
   background: rgb(250, 250, 250);
   margin: 20px 5px 20px 5px;
 }
-.filter-wrapper {
-  padding: 35px;
-}
-.filter {
-  float: right;
-  width: 150px;
-  height: 30px;
-}
-button {
+.button {
+    position:absolute;
+    cursor: pointer;
 }
 h3 {
   margin-left: 10px;

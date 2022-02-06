@@ -13,15 +13,24 @@
     </div>
     <div v-scroll="handleScroll" class="product-form" :class="{active: isActive}">
       <form @submit.prevent="addProduct()">
-        <p>Наименование товара</p>
+        <img class="required-img name" src="../data/images/red-dot.png">
+        <p class="input-description">Наименование товара</p>
         <input v-model="inputName" class="input" type="text" placeholder="Введите наименование товара" required>
-        <p>Описание товара</p>
-        <textarea v-model="inputDesc" class="input-desc" type="text" placeholder="Введите описание товара" :maxlength="limit" />
-        <p>Ссылка на изображение товара</p>
-        <input v-model="inputLink" class="input" type="url" placeholder="Введите ссылку на изображение товара" required>
-        <p>Цена товара</p>
+        <p class="input-description">Описание товара</p>
+        <textarea
+          v-model="inputDesc"
+          class="input-desc"
+          type="text"
+          placeholder="Введите описание товара"
+          :maxlength="limit"
+        />
+        <img class="required-img link" src="../data/images/red-dot.png">
+        <p class="input-description">Ссылка на изображение товара</p>
+        <input v-model="inputLink" class="input" type="url" placeholder="Введите ссылку" required>
+        <img class="required-img price" src="../data/images/red-dot.png">
+        <p class="input-description" >Цена товара</p>
         <input v-model="inputPrice" class="input" type="number" placeholder="Введите цену товара" required>
-        <button class="button" type="submit">Добавить товар</button>
+        <button :disabled="required" class="add-button" type="submit">Добавить товар</button>
       </form>
     </div>
     <Grid :products="sortedArray" @remove="i => removeProduct(i)" />
@@ -121,7 +130,7 @@ export default {
 
 <style>
 html {
-  font-size: 18px;
+  font-size: 17px;
   font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ;
 }
 body {
@@ -134,7 +143,43 @@ body {
 .product-form {
   float: left;
   position: fixed;
-  top: 99px;
+  top: 94px;
+  left: 20px;
+  box-shadow: 1px 5px 10px 0px rgb(236, 236, 236);
+  align-items: center;
+}
+input, textarea {
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 1px 5px 10px 0px rgb(236, 236, 236);
+}
+.input {
+  padding: 10px;
+  width: 300px;
+}
+.input-description {
+  font-size: 12px;
+  color:rgba(0, 0, 0, 0.658);
+  margin-top: 10px;
+}
+.required-img {
+  width: 5px;
+  opacity: 50%;
+}
+.required-img.name {
+  margin-bottom: -13px;
+  margin-left: 122px;
+}
+.required-img.link {
+  margin-bottom: -13px;
+  margin-left: 175px;
+  margin-top: 10px;
+}
+.required-img.price {
+  margin-bottom: -13px;
+  margin-left: 69px;
+  margin-top: 10px;
 }
 .product-form:not(.active) {
   transition: all ease 0.2s;
@@ -151,7 +196,8 @@ textarea {
   display: flex;
   flex-direction: column;
   background: rgb(255, 255, 255);
-  padding: 20px;
+  border-radius: 5px;
+  padding: 10px;
 }
 .sorter-wrapper {
   margin: 50px 20px 5px 0;
@@ -160,5 +206,8 @@ textarea {
   float: right;
   width: 150px;
   height: 30px;
+}
+.add-button {
+  padding: 10px;
 }
 </style>

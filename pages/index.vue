@@ -16,7 +16,7 @@
         <p>Наименование товара</p>
         <input v-model="inputName" class="input" type="text" placeholder="Введите наименование товара" required>
         <p>Описание товара</p>
-        <input v-model="inputDesc" class="input-desc" type="text" placeholder="Введите описание товара">
+        <textarea v-model="inputDesc" class="input-desc" type="text" placeholder="Введите описание товара" :maxlength="limit" />
         <p>Ссылка на изображение товара</p>
         <input v-model="inputLink" class="input" type="url" placeholder="Введите ссылку на изображение товара" required>
         <p>Цена товара</p>
@@ -36,6 +36,7 @@ export default {
 
   data () {
     return {
+      limit: 120,
       sortBy: 'По умолчанию',
       availableProducts,
       inputName: '',
@@ -102,7 +103,7 @@ export default {
 <style>
 html {
   font-size: 18px;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ;
 }
 body {
   background: rgb(238, 238, 238);
@@ -115,13 +116,16 @@ body {
   float: left;
   position: fixed;
 }
-.product-form form {
+textarea {
+    resize: none;
+    height: 100px;
+}
+.product-form, form {
   position: relative;
   display: flex;
   flex-direction: column;
   background: rgb(255, 255, 255);
-  padding: 40px;
-  margin: 20px 0 0 0;
+  padding: 20px;
 }
 .sorter-wrapper {
   margin: 50px 20px 5px 0;

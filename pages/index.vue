@@ -11,7 +11,7 @@
         </select>
       </div>
     </div>
-    <div class="product-form">
+    <div v-scroll="handleScroll" class="product-form" :class="{active: isActive}">
       <form @submit.prevent="addProduct()">
         <p>Наименование товара</p>
         <input v-model="inputName" class="input" type="text" placeholder="Введите наименование товара" required>
@@ -34,8 +34,19 @@ import availableProducts from '../data/products'
 export default {
   name: 'IndexPage',
 
+  directives: {
+    scroll: {
+      inserted (el, binding) {
+        const onScrollCallback = binding.value
+        window.addEventListener('scroll', () => onScrollCallback())
+      }
+    }
+  },
+
   data () {
     return {
+      value: 0,
+      isActive: false,
       limit: 120,
       sortBy: 'По умолчанию',
       availableProducts,
@@ -95,6 +106,14 @@ export default {
       if (index !== -1) {
         this.availableProducts.splice(index, 1)
       }
+    },
+    handleScroll (evt, el) {
+      this.value = window.scrollY
+      if (this.value > 50) {
+        this.isActive = true
+      } else {
+        this.isActive = false
+      }
     }
   }
 }
@@ -115,13 +134,20 @@ body {
 .product-form {
   float: left;
   position: fixed;
+  top: 99px;
+}
+.product-form:not(.active) {
+  transition: all ease 0.2s;
+}
+.product-form.active {
+  top: 20px;
+  transition: all ease 0.2s;
 }
 textarea {
     resize: none;
     height: 100px;
 }
 .product-form, form {
-  position: relative;
   display: flex;
   flex-direction: column;
   background: rgb(255, 255, 255);

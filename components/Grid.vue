@@ -1,7 +1,15 @@
 <template>
   <div class="grid-wrapper">
     <div v-for="(item, index) in products" :key="index" class="grid" @mouseover="item.isActive = true" @mouseleave="item.isActive = false">
-      <img v-show="item.isActive" class="button" width="45px" src="../data/images/pngwing.com.png" @click="removeProduct(index)">
+      <transition name="btn-fade">
+        <img
+          v-show="item.isActive"
+          class="button"
+          width="45px"
+          src="../data/images/pngwing.com.png"
+          @click="removeProduct(index)"
+        >
+      </transition>
       <img class="image" :src="item.imgSrc">
       <h3>{{ item.name }}</h3>
       <p class="description">{{ item.description }}</p>
@@ -78,6 +86,7 @@ h3, p {
   max-height: 200px;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
+
 }
 .button {
     position: absolute;
@@ -85,6 +94,20 @@ h3, p {
     bottom: 385px;
     cursor: pointer;
     border-radius: 5px;
+}
+.btn-fade-enter-active {
+  animation: btn-fade-in .5s;
+}
+.btn-fade-leave-active {
+  animation: btn-fade-in .5s reverse;
+}
+@keyframes btn-fade-in {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 h3 {
   margin-left: 10px;

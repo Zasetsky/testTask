@@ -54,7 +54,7 @@ export default {
 
 <style scoped>
 .grid-wrapper {
-  margin-left: 371px;
+  margin-left: 382px;
 }
 .grid {
   display: inline-table;
@@ -65,11 +65,13 @@ export default {
   background: rgb(250, 250, 250);
   margin: 0 11px 20px 11px;
   border-radius: 5px;
-  box-shadow: 3px 3px 10px 3px rgb(219, 219, 219);
+  box-shadow: 1px 5px 10px 0px rgb(236, 236, 236);
+  transition: all ease .5s;
   cursor: pointer;
 }
 .grid:hover {
   box-shadow: 5px 5px 5px rgb(187, 187, 187);
+  transition: all ease .5s;
   }
 h3, p {
   position: absolute;

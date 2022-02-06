@@ -13,15 +13,54 @@
     </div>
     <div v-scroll="handleScroll" class="product-form" :class="{active: isActive}">
       <form @submit.prevent="addProduct()">
-        <p>Наименование товара</p>
-        <input v-model="inputName" class="input" type="text" placeholder="Введите наименование товара" required>
-        <p>Описание товара</p>
-        <textarea v-model="inputDesc" class="input-desc" type="text" placeholder="Введите описание товара" :maxlength="limit" />
-        <p>Ссылка на изображение товара</p>
-        <input v-model="inputLink" class="input" type="url" placeholder="Введите ссылку на изображение товара" required>
-        <p>Цена товара</p>
-        <input v-model="inputPrice" class="input" type="number" placeholder="Введите цену товара" required>
-        <button class="button" type="submit">Добавить товар</button>
+        <img class="required-img name" src="../data/images/red-dot.png">
+        <label for="name" class="input-description">Наименование товара</label>
+        <input
+          id="name"
+          v-model="inputName"
+          class="input"
+          :class="{active: isErrors}"
+          type="text"
+          placeholder="Введите наименование товара"
+        >
+        <p v-if="isErrors" class="error">Поле является обязательным</p>
+        <label for="description" class="input-description textarea">Описание товара</label>
+        <textarea
+          id="description"
+          v-model="inputDesc"
+          class="input-desc"
+          type="text"
+          placeholder="Введите описание товара"
+          :maxlength="limit"
+        />
+        <img class="required-img link" src="../data/images/red-dot.png">
+        <label for="link" class="input-description">Ссылка на изображение товара</label>
+        <input
+          id="link"
+          v-model="inputLink"
+          class="input"
+          :class="{active: isErrors}"
+          type="url"
+          placeholder="Введите ссылку"
+        >
+        <p v-if="isErrors" class="error">Поле является обязательным</p>
+        <img class="required-img price" src="../data/images/red-dot.png">
+        <label for="price" class="input-description" >Цена товара</label>
+        <input
+          id="price"
+          v-model="inputPrice"
+          class="input"
+          :class="{active: isErrors}"
+          type="number"
+          min="0"
+          placeholder="Введите цену товара"
+        >
+        <p v-if="isErrors" class="error">Поле является обязательным</p>
+        <button
+          :class="{active: isFilled}"
+          class="add-button"
+          type="submit">Добавить товар
+        </button>
       </form>
     </div>
     <Grid :products="sortedArray" @remove="i => removeProduct(i)" />
@@ -45,11 +84,12 @@ export default {
 
   data () {
     return {
+      availableProducts,
       value: 0,
+      isErrors: false,
       isActive: false,
       limit: 120,
       sortBy: 'По умолчанию',
-      availableProducts,
       inputName: '',
       inputDesc: '',
       inputLink: '',
@@ -58,6 +98,10 @@ export default {
   },
 
   computed: {
+    isFilled () {
+      return this.inputName && this.inputLink && this.inputPrice
+    },
+
     sortedArray () {
       let products = this.availableProducts
       if (this.sortBy === 'name') {
@@ -88,18 +132,23 @@ export default {
 
   methods: {
     addProduct () {
-      this.availableProducts.push(
-        {
-          name: this.inputName,
-          description: this.inputDesc,
-          imgSrc: this.inputLink,
-          price: this.inputPrice,
-          isActive: false
-        })
-      this.inputName = ''
-      this.inputDesc = ''
-      this.inputLink = ''
-      this.inputPrice = ''
+      if (this.inputName && this.inputLink && this.inputPrice) {
+        this.isErrors = false
+        this.availableProducts.push(
+          {
+            name: this.inputName,
+            description: this.inputDesc,
+            imgSrc: this.inputLink,
+            price: this.inputPrice,
+            isActive: false
+          })
+        this.inputName = ''
+        this.inputDesc = ''
+        this.inputLink = ''
+        this.inputPrice = ''
+      } else {
+        this.isErrors = true
+      }
     },
 
     removeProduct (index) {
@@ -107,6 +156,7 @@ export default {
         this.availableProducts.splice(index, 1)
       }
     },
+
     handleScroll (evt, el) {
       this.value = window.scrollY
       if (this.value > 50) {
@@ -121,8 +171,9 @@ export default {
 
 <style>
 html {
-  font-size: 18px;
+  font-size: 17px;
   font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ;
+  color: rgba(0, 0, 0, 0.747);
 }
 body {
   background: rgb(238, 238, 238);
@@ -131,10 +182,76 @@ body {
     display: flex;
     justify-content: space-between;
 }
+.header {
+  margin-left: 30px;
+}
 .product-form {
   float: left;
   position: fixed;
-  top: 99px;
+  top: 94px;
+  left: 20px;
+  box-shadow: 1px 5px 10px 0px rgb(236, 236, 236);
+  align-items: center;
+}
+input, textarea {
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 1px 5px 10px 0px rgb(236, 236, 236);
+}
+.input {
+  padding: 10px;
+  width: 300px;
+}
+.input:focus {
+  box-shadow: 1px 5px 10px 0px rgb(211, 211, 211);
+  transition: all ease .5s;
+}
+.input.active {
+  border: 2px solid rgba(255, 0, 0, 0.349);
+}
+.input-description {
+  font-size: 12px;
+  color:rgba(0, 0, 0, 0.658);
+  margin-top: 10px;
+}
+.input-description.textarea {
+  margin-top: 20px;
+}
+.error {
+  font-size: 9px;
+  margin: 5px 0 -5px 0;
+  color: rgba(255, 0, 0, 0.582)
+}
+.required-img {
+  width: 5px;
+  opacity: 50%;
+}
+.required-img.name {
+  margin-bottom: -13px;
+  margin-left: 122px;
+}
+.required-img.link {
+  margin-bottom: -13px;
+  margin-left: 175px;
+  margin-top: 20px;
+}
+.required-img.price {
+  margin-bottom: -13px;
+  margin-left: 69px;
+  margin-top: 20px;
+}
+.add-button {
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  margin-top: 20px;
+  color: rgba(0, 0, 0, 0.219);
+  font-weight: bold;
+}
+.add-button.active {
+  color: white;
+  background-color: rgba(0, 128, 0, 0.541);
 }
 .product-form:not(.active) {
   transition: all ease 0.2s;
@@ -145,13 +262,15 @@ body {
 }
 textarea {
     resize: none;
-    height: 100px;
+    padding: 10px;
+    height: 90px;
 }
 .product-form, form {
   display: flex;
   flex-direction: column;
   background: rgb(255, 255, 255);
-  padding: 20px;
+  border-radius: 5px;
+  padding: 10px;
 }
 .sorter-wrapper {
   margin: 50px 20px 5px 0;
@@ -161,4 +280,5 @@ textarea {
   width: 150px;
   height: 30px;
 }
+
 </style>

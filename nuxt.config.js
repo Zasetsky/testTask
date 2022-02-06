@@ -6,7 +6,7 @@ export default {
   head: {
     title: 'testTask',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'RU'
     },
     meta: [
       { charset: 'utf-8' },

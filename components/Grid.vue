@@ -1,7 +1,7 @@
 <template>
   <div class="grid-wrapper">
-    <div v-for="(item, index) in products" :key="index" class="grid" @mouseover="active = true" @mouseleave="active = false">
-      <img v-show="active" class="button" width="35px" src="../data/images/pngwing.com.png" @click="removeProduct(index)">
+    <div v-for="(item, index) in products" :key="index" class="grid" @mouseover="item.isActive = true" @mouseleave="item.isActive = false">
+      <img v-show="item.isActive" class="button" width="35px" src="../data/images/pngwing.com.png" @click="removeProduct(index)">
       <img width="375px" :src="item.imgSrc">
       <h3>{{ item.name }}</h3>
       <p>{{ item.description }}</p>
@@ -31,6 +31,9 @@ export default {
   methods: {
     removeProduct (i) {
       this.$emit('remove', i)
+    },
+    buttonHover (i) {
+      this.$emit('hover', i)
     }
   }
 }

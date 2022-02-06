@@ -81,7 +81,8 @@ export default {
           name: this.inputName,
           description: this.inputDesc,
           imgSrc: this.inputLink,
-          price: this.inputPrice
+          price: this.inputPrice,
+          isActive: false
         })
       this.inputName = ''
       this.inputDesc = ''

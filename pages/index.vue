@@ -2,14 +2,12 @@
   <div>
     <div class="header-wrapper">
       <h1 class="header">Добавление товара</h1>
-      <div class="sorter-wrapper">
-        <select v-model="sortBy" class="sorter">
-          <option value="По умолчанию">По умолчанию</option>
-          <option value="name">По имени</option>
-          <option value="price-increase">По возрастанию цены</option>
-          <option value="price-decrease">По убыванию цены</option>
-        </select>
-      </div>
+      <select v-model="sortBy" class="sorter">
+        <option value="По умолчанию">По умолчанию</option>
+        <option value="name">По имени</option>
+        <option value="price-increase">По возрастанию цены</option>
+        <option value="price-decrease">По убыванию цены</option>
+      </select>
     </div>
     <div v-scroll="handleScroll" class="product-form" :class="{active: isActive}">
       <form @submit.prevent="addProduct()">
@@ -21,6 +19,7 @@
           class="input"
           :class="{active: isErrorName}"
           type="text"
+          :maxlength="limitName"
           placeholder="Введите наименование товара"
         >
         <p v-if="isErrorName" class="error">Поле является обязательным</p>
@@ -31,7 +30,7 @@
           class="input-desc"
           type="text"
           placeholder="Введите описание товара"
-          :maxlength="limit"
+          :maxlength="limitDesc"
         />
         <img class="required-img link" src="../data/images/red-dot.png">
         <label for="link" class="input-description">Ссылка на изображение товара</label>
@@ -87,7 +86,8 @@ export default {
       availableProducts,
       value: 0,
       isActive: false,
-      limit: 160,
+      limitDesc: 160,
+      limitName: 30,
       showErrors: false,
       sortBy: 'По умолчанию',
       inputName: '',
@@ -99,7 +99,13 @@ export default {
 
   computed: {
     maxId () {
-      return Math.max(this.availableProducts.map(p => p.id))
+      let max = 0
+      for (let i = 0; i < this.availableProducts.length; i++) {
+        if (this.availableProducts[i].id > max) {
+          max = this.availableProducts[i].id
+        }
+      }
+      return max
     },
 
     isFilled () {
@@ -169,6 +175,7 @@ export default {
         this.inputPrice = ''
         this.showErrors = false
       }
+      console.log(this.availableProducts)
     },
 
     removeProduct (index) {
@@ -179,7 +186,7 @@ export default {
 
     handleScroll (evt, el) {
       this.value = window.scrollY
-      if (this.value > 50) {
+      if (this.value > 35) {
         this.isActive = true
       } else {
         this.isActive = false
@@ -191,28 +198,28 @@ export default {
 
 <style>
 html {
-  font-size: 17px;
+  font-size: 1.2vw;
   font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ;
   color: rgba(0, 0, 0, 0.747);
+  scroll-behavior: smooth;
 }
 body {
-  background: rgb(238, 238, 238);
+  background: rgb(240, 240, 240);
+}
 
   /* Form */
 
-}
 .header-wrapper {
     display: flex;
     justify-content: space-between;
 }
 .header {
-  margin-left: 20px;
+  margin-left: 1.2vw;
 }
 .product-form {
   float: left;
   position: fixed;
-  top: 94px;
-  left: 20px;
+  margin-left: 1vw;
   box-shadow: 1px 5px 10px 0px rgb(236, 236, 236);
   align-items: center;
 }
@@ -220,80 +227,90 @@ body {
   transition: all ease 0.2s;
 }
 .product-form.active {
-  top: 20px;
+  top: 1vw;
   transition: all ease 0.2s;
 }
 .product-form, form {
   display: flex;
   flex-direction: column;
   background: rgb(255, 255, 255);
-  border-radius: 5px;
-  padding: 10px;
+  border-radius: 0.5vw;
+  padding: 0.7vw;
 }
+::-webkit-input-placeholder {
+              color: #0000004f;
+            }
 input, textarea {
   outline: none;
   border: none;
-  border-radius: 5px;
-  box-shadow: 1px 5px 10px 0px rgb(236, 236, 236);
+  font-size: 0.9vw;
+  border-radius: 0.4vw;
+  box-shadow: 0.1vw 0.5vw 1vw 0vw rgb(230, 230, 230);
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-textarea {
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+.input-desc {
     resize: none;
-    padding: 10px;
-    height: 90px;
+    padding: 0.7vw;
+    height: 6vw;
 }
-textarea:focus {
-  box-shadow: 1px 5px 10px 0px rgb(180, 180, 180);
+.input-desc:focus {
+  box-shadow: 0.1vw 0.5vw 1vw 0vw rgb(163, 163, 163);
   transition: all ease .5s;
 }
 .input {
-  padding: 10px;
-  width: 300px;
+  padding: 0.7vw;
+  width: 19vw;
 }
 .input:focus {
-  box-shadow: 1px 5px 10px 0px rgb(180, 180, 180);
+  box-shadow: 0.1vw 0.5vw 1vw 0vw rgb(163, 163, 163);
   transition: all ease .5s;
 }
 .input.active {
-  border: 2px solid rgba(255, 0, 0, 0.349);
+  border: 0.2vw solid rgba(255, 0, 0, 0.349);
 }
 .input-description {
-  font-size: 12px;
+  font-size: 0.75vw;
   color:rgba(0, 0, 0, 0.658);
-  margin-top: 10px;
+  margin-top: 0.7vw;
 }
 .input-description.textarea {
-  margin-top: 20px;
+  margin-top: 1.4vw;
 }
 .error {
-  font-size: 9px;
-  margin: 5px 0 -5px 0;
+  font-size: 0.7vw;
+  margin: 0.5vw 0 -0.5vw 0;
   color: rgba(255, 0, 0, 0.582)
 }
 .required-img {
-  width: 5px;
+  width: 0.3vw;
   opacity: 50%;
 }
 .required-img.name {
-  margin-bottom: -13px;
-  margin-left: 122px;
+  margin-bottom: -1vw;
+  margin-left: 7.6vw;
 }
 .required-img.link {
-  margin-bottom: -13px;
-  margin-left: 175px;
-  margin-top: 20px;
+  margin-bottom: -1vw;
+  margin-left: 10.9vw;
+  margin-top: 1.4vw;
 }
 .required-img.price {
-  margin-bottom: -13px;
-  margin-left: 69px;
-  margin-top: 20px;
+  margin-bottom: -1vw;
+  margin-left: 4.2vw;
+  margin-top: 1.4vw;
 }
 .add-button {
-  padding: 10px;
+  padding: 0.65vw;
   border: none;
-  border-radius: 10px;
-  margin-top: 20px;
+  border-radius: 0.6vw;
+  margin-top: 1.3vw;
   color: rgba(0, 0, 0, 0.219);
   font-weight: bold;
+  font-size: 0.9vw;
 }
 .add-button.active {
   color: white;
@@ -303,22 +320,71 @@ textarea:focus {
 
 /* Sorter */
 
-.sorter-wrapper {
-  margin: 50px 20px 5px 0;
-}
 .sorter {
   float: right;
-  width: 140px;
+  width: 10vw;
   text-align: center;
-  height: 40px;
+  height: 2.9vw;
   outline: none;
   border: none;
-  margin-top: -20px;
-  margin-right: 15px;
-  border-radius: 5px;
-  box-shadow: 1px 5px 10px 0px rgb(236, 236, 236);
-  color: rgba(0, 0, 0, 0.349);
+  border-radius: 0.5vw;
+  box-shadow: 0.1vw 0.5vw 1vw 0vw rgb(230, 230, 230);
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #0000004f;
   cursor: pointer;
+  font-size: 0.9vw;
+  margin: 1vw 1vw 0 0;
 }
 
+.sorter:focus {
+  box-shadow: 0.1vw 0.5vw 1vw 0vw rgb(163, 163, 163);
+}
+
+/* MEDIA */
+/* tablet */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .sorter{
+    margin: 1vw 2vw 0 0;
+  }
+  .input {
+    height: 2vw;
+    width: 24.5vw;
+  }
+  .add-button {
+    padding: 1vw;
+    margin-top: 2vw;
+  }
+}
+@media (min-width: 1024px) and (max-width: 1240px)  {
+  .sorter{
+    margin: 1vw 2.5vw 0 0;
+  }
+  .product-form {
+    margin-top: 0;
+  }
+}
+/* monitors and laptops */
+@media (min-width: 1240px)  {
+  .sorter{
+    margin: 1.5vw 3.2vw 0 0;
+  }
+  .product-form {
+    margin-top: 0;
+    margin-left: 1vw;
+  }
+}
+/* mobile */
+@media (max-width: 768px) {
+  .sorter{
+    margin: 1vw 4vw 0 0;
+  }
+  .input {
+    height: 2vw;
+    width: 24.5vw;
+  }
+  .add-button {
+    padding: 1vw;
+    margin-top: 2vw;
+  }
+}
 </style>

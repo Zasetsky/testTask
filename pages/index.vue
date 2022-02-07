@@ -237,13 +237,16 @@ body {
   border-radius: 0.5vw;
   padding: 0.7vw;
 }
+::-webkit-input-placeholder {
+              color: #0000004f;
+            }
 input, textarea {
   outline: none;
   border: none;
   font-size: 0.9vw;
   border-radius: 0.4vw;
   box-shadow: 0.1vw 0.5vw 1vw 0vw rgb(230, 230, 230);
-  font-family: Roboto;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ;
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -253,7 +256,6 @@ input::-webkit-inner-spin-button {
     resize: none;
     padding: 0.7vw;
     height: 6vw;
-
 }
 .input-desc:focus {
   box-shadow: 0.1vw 0.5vw 1vw 0vw rgb(163, 163, 163);
@@ -344,8 +346,8 @@ input::-webkit-inner-spin-button {
     margin: 1vw 2vw 0 0;
   }
   .input {
-    padding: 1.5vw;
-    width: 23vw;
+    height: 2vw;
+    width: 24.5vw;
   }
   .add-button {
     padding: 1vw;
@@ -367,7 +369,7 @@ input::-webkit-inner-spin-button {
   }
   .product-form {
     margin-top: 0;
-    margin-left: 0;
+    margin-left: 1vw;
   }
 }
 /* mobile */
@@ -376,8 +378,8 @@ input::-webkit-inner-spin-button {
     margin: 1vw 4vw 0 0;
   }
   .input {
-    padding: 1.5vw;
-    width: 23vw;
+    height: 2vw;
+    width: 24.5vw;
   }
   .add-button {
     padding: 1vw;

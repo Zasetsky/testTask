@@ -126,7 +126,7 @@ p {
   }
   .grid {
     height: 34vw;
-    margin: 0 1vw 1.4vw 1vw;
+    margin: 0 1vw 2vw 1vw;
   }
   .image {
     width: 31vw;
@@ -151,7 +151,7 @@ p {
   }
   .grid {
     height: 34vw;
-    margin: 0 0.5vw 1.4vw 0.5vw;
+    margin: 0 0.5vw 2vw 0.5vw;
   }
   .image {
     width: 30vw;

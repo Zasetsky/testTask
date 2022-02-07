@@ -1,5 +1,5 @@
 # testTask
-
+![Иллюстрация к проекту](https://github.com/Zasetsky/testTask/tree/master/data/images/image.png)
 ## Build Setup
 
 ```bash

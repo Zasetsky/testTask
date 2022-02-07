@@ -186,7 +186,7 @@ export default {
 
     handleScroll (evt, el) {
       this.value = window.scrollY
-      if (this.value > 50) {
+      if (this.value > 35) {
         this.isActive = true
       } else {
         this.isActive = false
@@ -270,7 +270,7 @@ input::-webkit-inner-spin-button {
   transition: all ease .5s;
 }
 .input.active {
-  border: 2px solid rgba(255, 0, 0, 0.349);
+  border: 0.2vw solid rgba(255, 0, 0, 0.349);
 }
 .input-description {
   font-size: 0.75vw;
@@ -281,8 +281,8 @@ input::-webkit-inner-spin-button {
   margin-top: 1.4vw;
 }
 .error {
-  font-size: 9px;
-  margin: 5px 0 -5px 0;
+  font-size: 0.7vw;
+  margin: 0.5vw 0 -0.5vw 0;
   color: rgba(255, 0, 0, 0.582)
 }
 .required-img {

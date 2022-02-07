@@ -58,15 +58,16 @@ export default {
 .grid {
   display: inline-table;
   position: relative;
-  width: 20%;
-  min-width: 20vw;
-  min-height: 28vw;
+  max-width: 20vw;
+  height: 28vw;
   background: rgb(250, 250, 250);
   margin: 0 0.6vw 1.4vw 0.6vw;
   border-radius: 0.5vw;
   box-shadow: 0.1vw 0.5vw 1vw 0vw rgb(230, 230, 230);
   transition: all ease .5s;
   cursor: pointer;
+  border-top-left-radius: 0.5vw;
+  border-top-right-radius: 0.5vw;
 }
 .grid:hover {
   box-shadow: 0.1vw 0.5vw 1vw 0vw rgb(163, 163, 163);
@@ -84,11 +85,11 @@ h3, p {
   font-weight: bold;
 }
 .image {
-  width: 22.99vw;
-  min-width: 22.8vw;
+  width: 100%;
+  height: 14vw;
+  min-width: 22.99vw;
   border-top-left-radius: 0.5vw;
   border-top-right-radius: 0.5vw;
-
 }
 .button {
     position: absolute;
@@ -125,20 +126,26 @@ p {
     margin-left: 31vw;
   }
   .grid {
-    height: 34vw;
+    height: 32vw;
     margin: 0 1vw 2vw 1vw;
   }
   .image {
-    width: 31vw;
+    height: 18vw;
+    width: 30vw;
   }
   .button {
     width: 3vw;
-    left: 28.7vw;
-    bottom: 32vw;
+    left: 27.7vw;
+    bottom: 30vw;
+}
+.description {
+  margin-bottom: 2.5vw;
 }
 }
 @media (min-width: 1024px) and (max-width: 1240px)  {
-
+  .grid {
+    margin: 0 0.5vw 2vw 0.5vw;
+  }
 }
 /* monitors and laptops */
 @media (min-width: 1240px)  {
@@ -150,16 +157,20 @@ p {
     margin-left: 30.5vw;
   }
   .grid {
-    height: 34vw;
+    height: 32vw;
     margin: 0 0.5vw 2vw 0.5vw;
   }
   .image {
+    height: 18vw;
     width: 30vw;
   }
   .button {
     width: 3vw;
     left: 27.5vw;
-    bottom: 32vw;
+    bottom: 30vw;
+}
+.description {
+  margin-bottom: 2vw;
 }
 }
 </style>

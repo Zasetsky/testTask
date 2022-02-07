@@ -5,7 +5,6 @@
         <img
           v-show="item.isActive"
           class="button"
-          width="45px"
           src="../data/images/pngwing.com.png"
           @click="removeProduct(index)"
         >
@@ -54,48 +53,49 @@ export default {
 
 <style scoped>
 .grid-wrapper {
-  margin-left: 382px;
+  margin-left: 24.8vw;
 }
 .grid {
   display: inline-table;
   position: relative;
   width: 20%;
-  min-width: 350px;
-  min-height: 412px;
+  min-width: 20vw;
+  min-height: 28vw;
   background: rgb(250, 250, 250);
-  margin: 0 11px 20px 11px;
-  border-radius: 5px;
-  box-shadow: 1px 5px 10px 0px rgb(236, 236, 236);
+  margin: 0 0.6vw 1.4vw 0.6vw;
+  border-radius: 0.5vw;
+  box-shadow: 0.1vw 0.5vw 1vw 0vw rgb(230, 230, 230);
   transition: all ease .5s;
   cursor: pointer;
 }
 .grid:hover {
-  box-shadow: 5px 5px 5px rgb(187, 187, 187);
+  box-shadow: 0.1vw 0.5vw 1vw 0vw rgb(163, 163, 163);
   transition: all ease .5s;
   }
 h3, p {
   position: absolute;
 }
 .description {
-  bottom: 50px;
+  bottom: 3.6vw;
   hyphens: auto;
 }
 .price {
-  bottom: 5px;
+  bottom: 0.5vw;
+  font-weight: bold;
 }
 .image {
-  width: 350px;
-  max-height: 200px;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
+  width: 22.99vw;
+  min-width: 22.8vw;
+  border-top-left-radius: 0.5vw;
+  border-top-right-radius: 0.5vw;
 
 }
 .button {
     position: absolute;
-    left: 315px;
-    bottom: 385px;
+    width: 3vw;
+    left: 20.7vw;
+    bottom: 26vw;
     cursor: pointer;
-    border-radius: 5px;
 }
 .btn-fade-enter-active {
   animation: btn-fade-in .5s;
@@ -112,9 +112,54 @@ h3, p {
   }
 }
 h3 {
-  margin-left: 10px;
+  margin-left: 1vw;
 }
 p {
-  margin-left: 10px;
+  margin-left: 1vw;
+}
+
+/* MEDIA */
+/* tablet */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .grid-wrapper {
+    margin-left: 31vw;
+  }
+  .grid {
+    height: 34vw;
+    margin: 0 1vw 1.4vw 1vw;
+  }
+  .image {
+    width: 31vw;
+  }
+  .button {
+    width: 3vw;
+    left: 28.7vw;
+    bottom: 32vw;
+}
+}
+@media (min-width: 1024px) and (max-width: 1240px)  {
+
+}
+/* monitors and laptops */
+@media (min-width: 1240px)  {
+
+}
+/* mobile */
+@media (max-width: 768px) {
+  .grid-wrapper {
+    margin-left: 30.5vw;
+  }
+  .grid {
+    height: 34vw;
+    margin: 0 0.5vw 1.4vw 0.5vw;
+  }
+  .image {
+    width: 30vw;
+  }
+  .button {
+    width: 3vw;
+    left: 27.5vw;
+    bottom: 32vw;
+}
 }
 </style>

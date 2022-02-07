@@ -243,6 +243,7 @@ input, textarea {
   font-size: 0.9vw;
   border-radius: 0.4vw;
   box-shadow: 0.1vw 0.5vw 1vw 0vw rgb(230, 230, 230);
+  font-family: Roboto;
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -252,6 +253,7 @@ input::-webkit-inner-spin-button {
     resize: none;
     padding: 0.7vw;
     height: 6vw;
+
 }
 .input-desc:focus {
   box-shadow: 0.1vw 0.5vw 1vw 0vw rgb(163, 163, 163);

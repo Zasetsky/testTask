@@ -4,7 +4,7 @@
       <h1 class="header">Добавление товара</h1>
       <div class="sorter-wrapper">
         <select v-model="sortBy" class="sorter">
-          <option disabled>По умолчанию</option>
+          <option value="По умолчанию">По умолчанию</option>
           <option value="name">По имени</option>
           <option value="price-increase">По возрастанию цены</option>
           <option value="price-decrease">По убыванию цены</option>
@@ -19,11 +19,11 @@
           id="name"
           v-model="inputName"
           class="input"
-          :class="{active: isErrors}"
+          :class="{active: isErrorName}"
           type="text"
           placeholder="Введите наименование товара"
         >
-        <p v-if="isErrors" class="error">Поле является обязательным</p>
+        <p v-if="isErrorName" class="error">Поле является обязательным</p>
         <label for="description" class="input-description textarea">Описание товара</label>
         <textarea
           id="description"
@@ -39,23 +39,23 @@
           id="link"
           v-model="inputLink"
           class="input"
-          :class="{active: isErrors}"
+          :class="{active: isErrorLink}"
           type="url"
           placeholder="Введите ссылку"
         >
-        <p v-if="isErrors" class="error">Поле является обязательным</p>
+        <p v-if="isErrorLink" class="error">Поле является обязательным</p>
         <img class="required-img price" src="../data/images/red-dot.png">
         <label for="price" class="input-description" >Цена товара</label>
         <input
           id="price"
           v-model="inputPrice"
           class="input"
-          :class="{active: isErrors}"
+          :class="{active: isErrorPrice}"
           type="number"
           min="0"
           placeholder="Введите цену товара"
         >
-        <p v-if="isErrors" class="error">Поле является обязательным</p>
+        <p v-if="isErrorPrice" class="error">Поле является обязательным</p>
         <button
           :class="{active: isFilled}"
           class="add-button"
@@ -86,9 +86,9 @@ export default {
     return {
       availableProducts,
       value: 0,
-      isErrors: false,
       isActive: false,
-      limit: 120,
+      limit: 160,
+      showErrors: false,
       sortBy: 'По умолчанию',
       inputName: '',
       inputDesc: '',
@@ -98,8 +98,24 @@ export default {
   },
 
   computed: {
+    maxId () {
+      return Math.max(this.availableProducts.map(p => p.id))
+    },
+
     isFilled () {
       return this.inputName && this.inputLink && this.inputPrice
+    },
+
+    isErrorName () {
+      return !this.inputName && this.showErrors
+    },
+
+    isErrorLink () {
+      return !this.inputLink && this.showErrors
+    },
+
+    isErrorPrice () {
+      return !this.inputPrice && this.showErrors
     },
 
     sortedArray () {
@@ -125,6 +141,10 @@ export default {
         products = products.sort((a, b) => {
           return a.price - b.price
         })
+      } else if (this.sortBy === 'По умолчанию') {
+        products = products.sort((a, b) => {
+          return a.id - b.id
+        })
       }
       return products
     }
@@ -132,10 +152,11 @@ export default {
 
   methods: {
     addProduct () {
-      if (this.inputName && this.inputLink && this.inputPrice) {
-        this.isErrors = false
+      this.showErrors = true
+      if (!this.isErrorName && !this.isErrorLink && !this.isErrorPrice) {
         this.availableProducts.push(
           {
+            id: this.maxId + 1,
             name: this.inputName,
             description: this.inputDesc,
             imgSrc: this.inputLink,
@@ -146,8 +167,7 @@ export default {
         this.inputDesc = ''
         this.inputLink = ''
         this.inputPrice = ''
-      } else {
-        this.isErrors = true
+        this.showErrors = false
       }
     },
 
@@ -177,13 +197,16 @@ html {
 }
 body {
   background: rgb(238, 238, 238);
+
+  /* Form */
+
 }
 .header-wrapper {
     display: flex;
     justify-content: space-between;
 }
 .header {
-  margin-left: 30px;
+  margin-left: 20px;
 }
 .product-form {
   float: left;
@@ -193,18 +216,41 @@ body {
   box-shadow: 1px 5px 10px 0px rgb(236, 236, 236);
   align-items: center;
 }
+.product-form:not(.active) {
+  transition: all ease 0.2s;
+}
+.product-form.active {
+  top: 20px;
+  transition: all ease 0.2s;
+}
+.product-form, form {
+  display: flex;
+  flex-direction: column;
+  background: rgb(255, 255, 255);
+  border-radius: 5px;
+  padding: 10px;
+}
 input, textarea {
   outline: none;
   border: none;
   border-radius: 5px;
   box-shadow: 1px 5px 10px 0px rgb(236, 236, 236);
 }
+textarea {
+    resize: none;
+    padding: 10px;
+    height: 90px;
+}
+textarea:focus {
+  box-shadow: 1px 5px 10px 0px rgb(180, 180, 180);
+  transition: all ease .5s;
+}
 .input {
   padding: 10px;
   width: 300px;
 }
 .input:focus {
-  box-shadow: 1px 5px 10px 0px rgb(211, 211, 211);
+  box-shadow: 1px 5px 10px 0px rgb(180, 180, 180);
   transition: all ease .5s;
 }
 .input.active {
@@ -252,33 +298,27 @@ input, textarea {
 .add-button.active {
   color: white;
   background-color: rgba(0, 128, 0, 0.541);
+  cursor: pointer;
 }
-.product-form:not(.active) {
-  transition: all ease 0.2s;
-}
-.product-form.active {
-  top: 20px;
-  transition: all ease 0.2s;
-}
-textarea {
-    resize: none;
-    padding: 10px;
-    height: 90px;
-}
-.product-form, form {
-  display: flex;
-  flex-direction: column;
-  background: rgb(255, 255, 255);
-  border-radius: 5px;
-  padding: 10px;
-}
+
+/* Sorter */
+
 .sorter-wrapper {
   margin: 50px 20px 5px 0;
 }
 .sorter {
   float: right;
-  width: 150px;
-  height: 30px;
+  width: 140px;
+  text-align: center;
+  height: 40px;
+  outline: none;
+  border: none;
+  margin-top: -20px;
+  margin-right: 15px;
+  border-radius: 5px;
+  box-shadow: 1px 5px 10px 0px rgb(236, 236, 236);
+  color: rgba(0, 0, 0, 0.349);
+  cursor: pointer;
 }
 
 </style>

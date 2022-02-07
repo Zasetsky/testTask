@@ -246,7 +246,7 @@ input, textarea {
   font-size: 0.9vw;
   border-radius: 0.4vw;
   box-shadow: 0.1vw 0.5vw 1vw 0vw rgb(230, 230, 230);
-  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -329,7 +329,8 @@ input::-webkit-inner-spin-button {
   border: none;
   border-radius: 0.5vw;
   box-shadow: 0.1vw 0.5vw 1vw 0vw rgb(230, 230, 230);
-  color: rgba(0, 0, 0, 0.349);
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #0000004f;
   cursor: pointer;
   font-size: 0.9vw;
   margin: 1vw 1vw 0 0;
